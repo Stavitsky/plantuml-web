@@ -3,12 +3,13 @@ import React, {PureComponent} from "react";
 export default class TextArea extends PureComponent {
     initialText: string;
     onChange: (text: string) => null;
+    setTextAreaBind: (ref: HTMLInputElement) => null;
 
     _textArea: HTMLInputElement;
 
     render() {
         return (
-            <textarea onChange={e => this.props.onChange(e, this._textArea)}
+            <textarea onChange={e => this.props.onChange(e)}
                       defaultValue={this.props.initialText}
                       ref={c => (this._textArea = c)}
                       onKeyUp={e => this.handleKeyUp(e)}
@@ -19,6 +20,7 @@ export default class TextArea extends PureComponent {
 
     componentDidMount() {
         this.resize(this._textArea);
+        this.props.setTextAreaBind(this._textArea);
     }
 
     // noinspection JSMethodCanBeStatic
