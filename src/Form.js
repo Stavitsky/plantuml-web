@@ -19,6 +19,7 @@ class Form extends Component {
         super(props);
 
         this._text = props.text
+        this._textArea = null;
     }
 
     render() {
@@ -26,8 +27,9 @@ class Form extends Component {
             <form onSubmit={e => this.handleSubmit(e)}>
                     <TextArea
                         initialText={this._text}
-                        onChange={(e, ref) => this.handleTextAreaChange(e, ref)}
+                        onChange={e => this.handleTextAreaChange(e)}
                         onSubmit={e => this.handleSubmit(e)}
+                        setTextAreaBind={this.setTextAreaBind}
                     />
                 <input type="submit"/>
                 <button
@@ -45,18 +47,21 @@ class Form extends Component {
         )
     }
 
+    setTextAreaBind = (ref: HTMLInputElement) => {
+        this._textArea = ref;
+    }
+
     handleAddTemplate = () => {
         console.log('update');
         this._textArea.value = HARDCODE;
         this._text = HARDCODE;
     }
 
-    handleTextAreaChange(event: Event, ref: HTMLInputElement) {
+    handleTextAreaChange(event: Event) {
         // noinspection JSUnresolvedVariable
         const text = event.target.value;
 
         this._text = text;
-        this._textArea = ref;
         this.props.dbManager.update(this.props.blockId, text);
     }
 
